@@ -1,4 +1,11 @@
-import { Cell, CellType } from "./gameSlice";
+import { every, flatten } from "lodash";
+import {
+  Cell,
+  CellType,
+  FaceState,
+  GameSliceState,
+  GameState,
+} from "./gameSlice";
 
 export const defaultDifficulty = { rows: 10, columns: 10, mines: 10 };
 
@@ -141,6 +148,18 @@ export const selectTouchingCell = (cell: Cell) => {
   cell.visible = true;
 };
 
-export const selectMineCell = (cell: Cell) => {
+export const selectMineCell = (cell: Cell, state: GameSliceState) => {
   cell.visible = true;
+  state.gameState = GameState.GameOver;
+  state.faceState = FaceState.GameOver;
+};
+
+export const foundAllMines = (cells: Cell[][]) => {
+  const flattenedCells = flatten(cells);
+  const hiddenCells = flattenedCells.filter((cell) => !cell.visible);
+
+  if (every(hiddenCells, (cell) => cell.type === CellType.Mine)) {
+    return true;
+  }
+  return false;
 };

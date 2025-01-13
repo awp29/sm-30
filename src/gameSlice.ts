@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   calculateTouching,
   defaultDifficulty,
+  foundAllMines,
   generateCells,
   placeMines,
   selectEmptyCell,
@@ -62,8 +63,16 @@ export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    newGame: () => {
-      console.log("NEW GAME");
+    newGame: (state) => {
+      state.gameState = GameState.Playing;
+      state.faceState = FaceState.Idle;
+      state.startTime = null;
+      state.flags = defaultDifficulty.mines;
+
+      const cells = generateCells();
+      const cellsWithMines = placeMines(cells);
+      const cellsWithMinesAndTouching = calculateTouching(cellsWithMines);
+      state.cells = cellsWithMinesAndTouching;
     },
 
     selectCell: (
@@ -73,6 +82,7 @@ export const gameSlice = createSlice({
       const { rowIndex, columnIndex } = action.payload;
       const cell = state.cells[rowIndex][columnIndex];
 
+      if (state.gameState !== GameState.Playing) return;
       if (cell.flagged) return;
 
       if (state.startTime === null) {
@@ -89,8 +99,13 @@ export const gameSlice = createSlice({
           break;
 
         case CellType.Mine:
-          selectMineCell(cell);
+          selectMineCell(cell, state);
           break;
+      }
+
+      if (foundAllMines(state.cells)) {
+        state.gameState = GameState.Won;
+        state.faceState = FaceState.Won;
       }
     },
 
@@ -98,6 +113,8 @@ export const gameSlice = createSlice({
       state,
       action: PayloadAction<{ rowIndex: number; columnIndex: number }>
     ) => {
+      if (state.gameState !== GameState.Playing) return;
+
       const { rowIndex, columnIndex } = action.payload;
       const cell = state.cells[rowIndex][columnIndex];
 
