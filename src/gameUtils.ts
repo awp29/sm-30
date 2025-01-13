@@ -7,7 +7,49 @@ import {
   GameState,
 } from "./gameSlice";
 
-export const defaultDifficulty = { rows: 10, columns: 10, mines: 10 };
+export enum DifficultyType {
+  Easy,
+  Intermediate,
+  Expert,
+}
+
+export interface Difficulty {
+  name: string;
+  type: DifficultyType;
+  rows: number;
+  columns: number;
+  mines: number;
+  flags: number;
+}
+
+export const defaultDifficulty = {
+  name: "Easy",
+  type: DifficultyType.Easy,
+  rows: 10,
+  columns: 10,
+  mines: 10,
+  flags: 10,
+};
+
+export const DIFFICULTY_MAP: { [key in DifficultyType]: Difficulty } = {
+  [DifficultyType.Easy]: defaultDifficulty,
+  [DifficultyType.Intermediate]: {
+    name: "Intermediate",
+    type: DifficultyType.Intermediate,
+    rows: 16,
+    columns: 16,
+    mines: 40,
+    flags: 40,
+  },
+  [DifficultyType.Expert]: {
+    name: "Expert",
+    type: DifficultyType.Expert,
+    rows: 16,
+    columns: 30,
+    mines: 99,
+    flags: 99,
+  },
+};
 
 export const generateCells = (difficulty = defaultDifficulty) => {
   const { rows, columns } = difficulty;

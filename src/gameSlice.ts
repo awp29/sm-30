@@ -2,6 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   calculateTouching,
   defaultDifficulty,
+  Difficulty,
+  DIFFICULTY_MAP,
+  DifficultyType,
   foundAllMines,
   generateCells,
   placeMines,
@@ -49,14 +52,16 @@ export interface GameSliceState {
   cells: Cell[][];
   flags: number;
   startTime: number | null;
+  difficulty: Difficulty;
 }
 
 const initialState: GameSliceState = {
   gameState: GameState.Playing,
   faceState: FaceState.Idle,
   cells: cellsWithMinesAndTouching,
-  flags: defaultDifficulty.mines,
+  flags: defaultDifficulty.flags,
   startTime: null,
+  difficulty: DIFFICULTY_MAP[DifficultyType.Easy],
 };
 
 export const gameSlice = createSlice({
@@ -67,11 +72,14 @@ export const gameSlice = createSlice({
       state.gameState = GameState.Playing;
       state.faceState = FaceState.Idle;
       state.startTime = null;
-      state.flags = defaultDifficulty.mines;
+      state.flags = state.difficulty.flags;
 
-      const cells = generateCells();
-      const cellsWithMines = placeMines(cells);
-      const cellsWithMinesAndTouching = calculateTouching(cellsWithMines);
+      const cells = generateCells(state.difficulty);
+      const cellsWithMines = placeMines(cells, state.difficulty);
+      const cellsWithMinesAndTouching = calculateTouching(
+        cellsWithMines,
+        state.difficulty
+      );
       state.cells = cellsWithMinesAndTouching;
     },
 
@@ -137,8 +145,25 @@ export const gameSlice = createSlice({
 
       state.faceState = action.payload;
     },
+
+    selectDifficulty: (state, action: PayloadAction<DifficultyType>) => {
+      const difficultyType = action.payload;
+      const newDifficulty = DIFFICULTY_MAP[difficultyType];
+      state.difficulty = newDifficulty;
+      state.flags = newDifficulty.flags;
+
+      const cells = generateCells(newDifficulty);
+      const cellsWithMines = placeMines(cells, newDifficulty);
+      const cellsWithConnetions = calculateTouching(
+        cellsWithMines,
+        newDifficulty
+      );
+
+      state.cells = [...cellsWithConnetions];
+    },
   },
 });
 
-export const { selectCell, flagCell, updateFace, newGame } = gameSlice.actions;
+export const { selectCell, flagCell, updateFace, newGame, selectDifficulty } =
+  gameSlice.actions;
 export default gameSlice.reducer;

@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Cell,
   FaceState,
@@ -7,6 +7,9 @@ import {
   updateFace,
 } from "../../gameSlice";
 import FlagIcon from "../../assets/icons/flag.svg";
+import { RootState } from "../../store";
+import classNames from "classnames";
+import { CELL_SIZE } from "./utils";
 
 interface Props {
   cell: Cell;
@@ -16,6 +19,7 @@ const TouchingCell = (props: Props) => {
   const { cell } = props;
 
   const dispatch = useDispatch();
+  const difficulty = useSelector((state: RootState) => state.game.difficulty);
 
   const handleClick = () => {
     dispatch(
@@ -33,7 +37,10 @@ const TouchingCell = (props: Props) => {
   if (cell.visible) {
     return (
       <div
-        className={`w-[40px] h-[40px] bg-[#D9CAB8] rounded-[4px] flex items-center justify-center`}
+        className={classNames(
+          CELL_SIZE[difficulty.type],
+          "bg-[#D9CAB8] rounded-[4px] flex items-center justify-center"
+        )}
       >
         <span className="font-bold text-2xl">{cell.touching}</span>
       </div>
@@ -43,7 +50,10 @@ const TouchingCell = (props: Props) => {
   return (
     <div className="bg-[#40341F] rounded-[4px]">
       <button
-        className={`w-[40px] h-[40px] hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white`}
+        className={classNames(
+          CELL_SIZE[difficulty.type],
+          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white"
+        )}
         onClick={handleClick}
         onContextMenu={handleRightClick}
         onMouseDown={() => dispatch(updateFace(FaceState.Worried))}
