@@ -1,4 +1,6 @@
-import { Cell } from "../../gameSlice";
+import { useDispatch } from "react-redux";
+import { Cell, flagCell, selectCell } from "../../gameSlice";
+import Flag from "../../assets/icons/flag.svg";
 
 interface Props {
   cell: Cell;
@@ -6,6 +8,21 @@ interface Props {
 
 const TouchingCell = (props: Props) => {
   const { cell } = props;
+
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(
+      selectCell({ rowIndex: cell.rowIndex, columnIndex: cell.columnIndex })
+    );
+  };
+
+  const handleRightClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    dispatch(
+      flagCell({ rowIndex: cell.rowIndex, columnIndex: cell.columnIndex })
+    );
+  };
 
   if (cell.visible) {
     return (
@@ -21,8 +38,10 @@ const TouchingCell = (props: Props) => {
     <div className="bg-[#40341F] rounded-[4px]">
       <button
         className={`w-[40px] h-[40px] hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white`}
+        onClick={handleClick}
+        onContextMenu={handleRightClick}
       >
-        {/* {cell.flagged ? <Flag /> : null} */}
+        {cell.flagged ? <Flag /> : null}
       </button>
     </div>
   );

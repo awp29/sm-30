@@ -1,4 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  calculateTouching,
+  defaultDifficulty,
+  generateCells,
+  placeMines,
+  selectEmptyCell,
+  selectMineCell,
+  selectTouchingCell,
+} from "./gameUtils";
 
 export enum CellType {
   Empty,
@@ -15,61 +24,65 @@ export interface Cell {
   columnIndex: number;
 }
 
-const generateCells = (rows = 10, columns = 10) => {
-  const cells: Cell[][] = [];
-  for (let i = 0; i < rows; i++) {
-    cells.push(new Array(columns));
-
-    for (let j = 0; j < columns; j++) {
-      cells[i][j] = {
-        visible: true,
-        type: CellType.Empty,
-        touching: 0,
-        flagged: false,
-        rowIndex: i,
-        columnIndex: j,
-      };
-    }
-  }
-
-  return cells;
-};
-
-const placeMines = (cells: Cell[][], mines = 10, rows = 10, columns = 10) => {
-  let minesToPlace = mines;
-
-  while (minesToPlace > 0) {
-    const randomRowIndex = Math.floor(Math.random() * rows);
-    const randomColumnIndex = Math.floor(Math.random() * columns);
-
-    const cell = cells[randomRowIndex][randomColumnIndex];
-
-    if (cell.type !== CellType.Mine) {
-      cell.type = CellType.Mine;
-      minesToPlace--;
-    }
-  }
-
-  return [...cells];
-};
-
 const cells = generateCells();
 const cellsWithMines = placeMines(cells);
-console.log("cellsWithMines", cellsWithMines);
+const cellsWithMinesAndTouching = calculateTouching(cellsWithMines);
 
-const initialState = {
-  cells: cellsWithMines,
+export interface GameState {
+  cells: Cell[][];
+  flags: number;
+}
+
+const initialState: GameState = {
+  cells: cellsWithMinesAndTouching,
+  flags: defaultDifficulty.mines,
 };
 
 export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    selectCell: () => {
-      console.log("select cell");
+    selectCell: (
+      state,
+      action: PayloadAction<{ rowIndex: number; columnIndex: number }>
+    ) => {
+      const { rowIndex, columnIndex } = action.payload;
+      const cell = state.cells[rowIndex][columnIndex];
+
+      if (cell.flagged) return;
+
+      switch (cell.type) {
+        case CellType.Empty:
+          selectEmptyCell(cell, state.cells);
+          break;
+
+        case CellType.Touching:
+          selectTouchingCell(cell);
+          break;
+
+        case CellType.Mine:
+          selectMineCell(cell);
+          break;
+      }
+    },
+
+    flagCell: (
+      state,
+      action: PayloadAction<{ rowIndex: number; columnIndex: number }>
+    ) => {
+      const { rowIndex, columnIndex } = action.payload;
+      const cell = state.cells[rowIndex][columnIndex];
+
+      if (!cell.flagged) {
+        cell.flagged = true;
+        state.flags--;
+      } else {
+        cell.flagged = false;
+        state.flags++;
+      }
     },
   },
 });
 
-export const { selectCell } = gameSlice.actions;
+export const { selectCell, flagCell } = gameSlice.actions;
 export default gameSlice.reducer;
