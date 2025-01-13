@@ -1,6 +1,12 @@
 import { useDispatch } from "react-redux";
-import { Cell, flagCell, selectCell } from "../../gameSlice";
-import Flag from "../../assets/icons/flag.svg";
+import {
+  Cell,
+  FaceState,
+  flagCell,
+  selectCell,
+  updateFace,
+} from "../../gameSlice";
+import FlagIcon from "../../assets/icons/flag.svg";
 
 interface Props {
   cell: Cell;
@@ -40,8 +46,11 @@ const MineCell = (props: Props) => {
         className={`w-[40px] h-[40px] hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white`}
         onClick={handleClick}
         onContextMenu={handleRightClick}
+        onMouseDown={() => dispatch(updateFace(FaceState.Worried))}
+        onMouseUp={() => dispatch(updateFace(FaceState.Idle))}
+        onMouseOut={() => dispatch(updateFace(FaceState.Idle))}
       >
-        {cell.flagged ? <Flag /> : null}
+        {cell.flagged ? <FlagIcon /> : null}
       </button>
     </div>
   );

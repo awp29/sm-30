@@ -9,6 +9,20 @@ import {
   selectTouchingCell,
 } from "./gameUtils";
 
+export enum GameState {
+  Playing,
+  GameOver,
+  Won,
+}
+
+export enum FaceState {
+  Idle,
+  Pressed,
+  Worried,
+  GameOver,
+  Won,
+}
+
 export enum CellType {
   Empty,
   Touching,
@@ -28,20 +42,30 @@ const cells = generateCells();
 const cellsWithMines = placeMines(cells);
 const cellsWithMinesAndTouching = calculateTouching(cellsWithMines);
 
-export interface GameState {
+export interface GameSliceState {
+  gameState: GameState;
+  faceState: FaceState;
   cells: Cell[][];
   flags: number;
+  startTime: number | null;
 }
 
-const initialState: GameState = {
+const initialState: GameSliceState = {
+  gameState: GameState.Playing,
+  faceState: FaceState.Idle,
   cells: cellsWithMinesAndTouching,
   flags: defaultDifficulty.mines,
+  startTime: null,
 };
 
 export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
+    newGame: () => {
+      console.log("NEW GAME");
+    },
+
     selectCell: (
       state,
       action: PayloadAction<{ rowIndex: number; columnIndex: number }>
@@ -50,6 +74,10 @@ export const gameSlice = createSlice({
       const cell = state.cells[rowIndex][columnIndex];
 
       if (cell.flagged) return;
+
+      if (state.startTime === null) {
+        state.startTime = Date.now();
+      }
 
       switch (cell.type) {
         case CellType.Empty:
@@ -81,8 +109,19 @@ export const gameSlice = createSlice({
         state.flags++;
       }
     },
+
+    updateFace: (state, action) => {
+      if (
+        state.gameState === GameState.GameOver ||
+        state.gameState === GameState.Won
+      ) {
+        return;
+      }
+
+      state.faceState = action.payload;
+    },
   },
 });
 
-export const { selectCell, flagCell } = gameSlice.actions;
+export const { selectCell, flagCell, updateFace, newGame } = gameSlice.actions;
 export default gameSlice.reducer;

@@ -46,12 +46,11 @@ function App() {
         <GameBoard>
           <GameBoard.Header>
             <GameBoard.Mines />
-            <div>FACE</div>
-            <div>time</div>
+            <GameBoard.FaceButton />
+            <GameBoard.Timer />
           </GameBoard.Header>
-          <div className="grid grid-cols-[repeat(10,_minmax(0,_1fr))] gap-1 row w-max m-auto">
-            {renderCells()}
-          </div>
+
+          <GameBoard.Cells>{renderCells()}</GameBoard.Cells>
         </GameBoard>
       </div>
     </>
