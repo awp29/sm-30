@@ -10,9 +10,12 @@ const Link = (props: Props) => {
   const { to, children } = props;
   return (
     <NavLink
+      end
       to={to}
       className={(linkProps) => {
         const { isActive } = linkProps;
+
+        console.log("STYLE", linkProps);
 
         // AP-TODO: TIDY UP THIS IF
         if (isActive) {
