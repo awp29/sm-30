@@ -47,11 +47,17 @@ function App() {
     <>
       <Nav>
         <Nav.Title />
+        <Nav.Links>
+          <Nav.Link to="/">Home</Nav.Link>
+          <Nav.Link to="instructions">Instructions</Nav.Link>
+        </Nav.Links>
       </Nav>
 
-      <GameBoard>
+      <div className="pl-[120px] mt-[18px]">
         <DifficultySelect />
+      </div>
 
+      <GameBoard>
         <GameBoard.Header>
           <GameBoard.Mines />
           <GameBoard.FaceButton />

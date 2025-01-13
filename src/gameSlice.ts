@@ -90,6 +90,8 @@ export const gameSlice = createSlice({
       const { rowIndex, columnIndex } = action.payload;
       const cell = state.cells[rowIndex][columnIndex];
 
+      console.log("select cell", cell.type);
+
       if (state.gameState !== GameState.Playing) return;
       if (cell.flagged) return;
 
@@ -99,7 +101,7 @@ export const gameSlice = createSlice({
 
       switch (cell.type) {
         case CellType.Empty:
-          selectEmptyCell(cell, state.cells);
+          selectEmptyCell(cell, state.cells, state.difficulty);
           break;
 
         case CellType.Touching:

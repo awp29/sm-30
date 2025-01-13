@@ -30,9 +30,12 @@ const DifficultySelect = () => {
 
     return (
       <div>
+        <label className="block text-[12px] font-bold text-[#000933A3] mb-2 font-mono">
+          DIFFICULTY
+        </label>
         <div className="w-72 flex flex-col gap-1 mb-[16px]">
           <div
-            className="bg-white w-[160px] rounded-[4px] py-2 cursor-pointer justify-between flex items-center px-3 border-[1px] shadow-md"
+            className="bg-white w-[160px] text-sm   h-[32px] rounded-[4px] py-2 cursor-pointer justify-between flex items-center px-3  shadow-sm"
             {...getToggleButtonProps()}
           >
             <span className="text-[#000626E3]">{selectedDifficulty.name}</span>
@@ -42,7 +45,7 @@ const DifficultySelect = () => {
         <ul
           className={classNames(
             !isOpen && "hidden",
-            "absolute z-10 bg-white w-[200px] rounded-[4px] py-2 shadow-md"
+            "absolute z-10 bg-white w-[200px] rounded-[4px] py-2 shadow-sm"
           )}
           {...getMenuProps()}
         >

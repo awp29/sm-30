@@ -23,7 +23,7 @@ export interface Difficulty {
 }
 
 export const defaultDifficulty = {
-  name: "Easy",
+  name: "Beginner",
   type: DifficultyType.Easy,
   rows: 10,
   columns: 10,
@@ -151,10 +151,17 @@ const displayConnectedCells = (
 ) => {
   const { rows, columns } = difficulty;
 
+  console.log("rowIndex", rowIndex);
+  console.log("columnIndex", columnIndex);
+  console.log("rows", rows);
+  console.log("columns", columns);
+
   if (rowIndex < 0 || rowIndex >= rows) return;
   if (columnIndex < 0 || columnIndex >= columns) return;
 
   const cell = cells[rowIndex][columnIndex];
+
+  console.log("displayConnectedCells", displayConnectedCells);
 
   if (cell.flagged) return;
   if (cell.visible) return;
