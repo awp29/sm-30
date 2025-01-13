@@ -39,7 +39,7 @@ const TouchingCell = (props: Props) => {
       <div
         className={classNames(
           CELL_SIZE[difficulty.type],
-          "bg-[#D9CAB8] rounded-[4px] flex items-center justify-center"
+          "bg-[#D9CAB8] rounded-[4px] flex items-center justify-center shadow-lg"
         )}
       >
         <span className="font-bold text-2xl">{cell.touching}</span>
@@ -52,7 +52,7 @@ const TouchingCell = (props: Props) => {
       <button
         className={classNames(
           CELL_SIZE[difficulty.type],
-          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white"
+          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white shadow-lg"
         )}
         onClick={handleClick}
         onContextMenu={handleRightClick}

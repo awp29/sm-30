@@ -12,7 +12,7 @@ interface Props {
 const GameBoard = (props: Props) => {
   const { children } = props;
 
-  return <div className="mx-auto w-fit">{children}</div>;
+  return <div className="mx-auto w-fit mt-[48px]">{children}</div>;
 };
 
 GameBoard.Header = Header;

@@ -111,7 +111,7 @@ export const calculateTouching = (
   cells: Cell[][],
   difficulty = defaultDifficulty
 ) => {
-  const { rows, columns } = defaultDifficulty;
+  const { rows, columns } = difficulty;
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < columns; j++) {

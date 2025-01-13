@@ -39,7 +39,7 @@ const MineCell = (props: Props) => {
       <div
         className={classNames(
           CELL_SIZE[difficulty.type],
-          "bg-white rounded-[4px] flex items-center justify-center"
+          "bg-white rounded-[4px] flex items-center justify-center shadow-lg"
         )}
       >
         <div className="border-[#C5441F] border-4 rounded-full w-6 h-6" />
@@ -52,7 +52,7 @@ const MineCell = (props: Props) => {
       <button
         className={classNames(
           CELL_SIZE[difficulty.type],
-          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white"
+          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white shadow-lg"
         )}
         onClick={handleClick}
         onContextMenu={handleRightClick}

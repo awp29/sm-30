@@ -39,7 +39,7 @@ const EmptyCell = (props: Props) => {
       <div
         className={classNames(
           CELL_SIZE[difficulty.type],
-          "bg-[#D9CAB8] rounded-[4px] flex items-center justify-center"
+          "bg-[#D9CAB8] rounded-[4px] flex items-center justify-center shadow-lg"
         )}
       />
     );
@@ -50,7 +50,7 @@ const EmptyCell = (props: Props) => {
       <button
         className={classNames(
           CELL_SIZE[difficulty.type],
-          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white"
+          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-whit shadow-lg"
         )}
         onClick={handleClick}
         onContextMenu={handleRightClick}

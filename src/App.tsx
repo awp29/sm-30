@@ -1,12 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import { CellType, selectDifficulty } from "./gameSlice";
+import { CellType } from "./gameSlice";
 import { TouchingCell, EmptyCell, MineCell } from "./components/cells";
 import GameBoard from "./components/board/GameBoard";
-import { DifficultyType } from "./gameUtils";
+
+import Nav from "./components/nav/Nav";
+import DifficultySelect from "./components/difficultySelect/DifficultySelect";
 
 function App() {
-  const dispatch = useDispatch();
   const cells = useSelector((state: RootState) => state.game.cells);
 
   const renderCells = () => {
@@ -44,19 +45,13 @@ function App() {
 
   return (
     <>
-      <button onClick={() => dispatch(selectDifficulty(DifficultyType.Easy))}>
-        Easy
-      </button>
-      <button
-        onClick={() => dispatch(selectDifficulty(DifficultyType.Intermediate))}
-      >
-        Intermediate
-      </button>
-      <button onClick={() => dispatch(selectDifficulty(DifficultyType.Expert))}>
-        Expert
-      </button>
+      <Nav>
+        <Nav.Title />
+      </Nav>
 
       <GameBoard>
+        <DifficultySelect />
+
         <GameBoard.Header>
           <GameBoard.Mines />
           <GameBoard.FaceButton />

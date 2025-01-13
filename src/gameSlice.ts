@@ -151,6 +151,8 @@ export const gameSlice = createSlice({
       const newDifficulty = DIFFICULTY_MAP[difficultyType];
       state.difficulty = newDifficulty;
       state.flags = newDifficulty.flags;
+      state.gameState = GameState.Playing;
+      state.faceState = FaceState.Idle;
 
       const cells = generateCells(newDifficulty);
       const cellsWithMines = placeMines(cells, newDifficulty);
