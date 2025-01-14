@@ -49,7 +49,7 @@ function App() {
         <Nav.Title />
         <Nav.Links>
           <Nav.Link to="/">Home</Nav.Link>
-          <Nav.Link to="instructions">Instructions</Nav.Link>
+          <Nav.Link to="https://github.com/awp29/sm-30">Github</Nav.Link>
         </Nav.Links>
       </Nav>
 

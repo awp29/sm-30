@@ -35,7 +35,7 @@ const DifficultySelect = () => {
         </label>
         <div className="w-72 flex flex-col gap-1 mb-[16px]">
           <div
-            className="bg-white w-[160px] text-sm   h-[32px] rounded-[4px] py-2 cursor-pointer justify-between flex items-center px-3  shadow-sm"
+            className="bg-white w-[160px] text-sm h-[32px] rounded-[4px] py-2 cursor-pointer justify-between flex items-center px-3  shadow-sm"
             {...getToggleButtonProps()}
           >
             <span className="text-[#000626E3]">{selectedDifficulty.name}</span>
@@ -53,7 +53,7 @@ const DifficultySelect = () => {
             difficulties.map((item, index) => (
               <li
                 className={twMerge(
-                  "flex flex-col items-start border-l-4 border-transparent hover:bg-[#C5441F0D] hover:border-[#C5441F] px-3 py-4 w-full",
+                  "text-sm flex flex-col items-start border-l-4 border-transparent hover:bg-[#C5441F0D] hover:border-[#C5441F] px-3 py-4 w-full",
                   selectedDifficulty === item &&
                     "border-[#C5441F] bg-[#C5441F0D] border-l-4"
                 )}
@@ -68,7 +68,7 @@ const DifficultySelect = () => {
                 >
                   {item.name}
                 </span>
-                <span className="text-sm text-[#000933A3]">
+                <span className="text-[12px] text-[#000933A3]">
                   {item.rows}x{item.columns} - {item.mines} mines
                 </span>
               </li>
