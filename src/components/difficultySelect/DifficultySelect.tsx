@@ -33,13 +33,13 @@ const DifficultySelect = () => {
         <label className="block text-[12px] font-bold text-[#000933A3] mb-2 font-mono">
           DIFFICULTY
         </label>
-        <div className="w-72 flex flex-col gap-1 mb-[16px]">
+        <div className="w-72 flex flex-col gap-1 mb-[8px]">
           <div
             className="bg-white w-[160px] text-sm h-[32px] rounded-[4px] py-2 cursor-pointer justify-between flex items-center px-3  shadow-sm"
             {...getToggleButtonProps()}
           >
             <span className="text-[#000626E3]">{selectedDifficulty.name}</span>
-            {isOpen ? <ChevronDownIcon /> : <ChevronUpIcon />}
+            {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
           </div>
         </div>
         <ul
