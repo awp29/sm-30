@@ -53,7 +53,7 @@ function App() {
         </Nav.Links>
       </Nav>
 
-      <div className="pl-[120px] mt-[18px]">
+      <div className="pl-[24px] mt-[18px]">
         <DifficultySelect />
       </div>
 
