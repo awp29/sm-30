@@ -155,6 +155,7 @@ export const gameSlice = createSlice({
       state.flags = newDifficulty.flags;
       state.gameState = GameState.Playing;
       state.faceState = FaceState.Idle;
+      state.startTime = null;
 
       const cells = generateCells(newDifficulty);
       const cellsWithMines = placeMines(cells, newDifficulty);

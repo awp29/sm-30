@@ -11,6 +11,7 @@ const Timer = () => {
 
   const startTime = useSelector((state: RootState) => state.game.startTime);
   const gameState = useSelector((state: RootState) => state.game.gameState);
+  const difficulty = useSelector((state: RootState) => state.game.difficulty);
 
   useEffect(() => {
     if (startTime === null) {
@@ -32,6 +33,10 @@ const Timer = () => {
       clearInterval(intervalId);
     }
   }, [gameState]);
+
+  useEffect(() => {
+    clearInterval(intervalId);
+  }, [difficulty.type]);
 
   return (
     <div className="flex gap-2 items-center">
