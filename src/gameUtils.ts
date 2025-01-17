@@ -201,13 +201,27 @@ export const selectMineCell = (cell: Cell, state: GameSliceState) => {
   cell.visible = true;
   state.gameState = GameState.GameOver;
   state.faceState = FaceState.GameOver;
+
+  const flattenedCells = flatten(state.cells);
+  flattenedCells.forEach((cell) => {
+    cell.visible = true;
+  });
 };
 
 export const foundAllMines = (cells: Cell[][]) => {
   const flattenedCells = flatten(cells);
   const hiddenCells = flattenedCells.filter((cell) => !cell.visible);
 
-  if (every(hiddenCells, (cell) => cell.type === CellType.Mine)) {
+  const foundAllMines = every(
+    hiddenCells,
+    (cell) => cell.type === CellType.Mine
+  );
+
+  if (foundAllMines) {
+    hiddenCells.forEach((cell) => {
+      cell.flagged = true;
+    });
+
     return true;
   }
   return false;

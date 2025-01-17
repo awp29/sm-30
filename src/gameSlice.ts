@@ -110,7 +110,7 @@ export const gameSlice = createSlice({
 
         case CellType.Mine:
           selectMineCell(cell, state);
-          break;
+          return;
       }
 
       if (foundAllMines(state.cells)) {

@@ -3,6 +3,7 @@ import {
   Cell,
   FaceState,
   flagCell,
+  GameState,
   selectCell,
   updateFace,
 } from "../../gameSlice";
@@ -20,6 +21,7 @@ const TouchingCell = (props: Props) => {
 
   const dispatch = useDispatch();
   const difficulty = useSelector((state: RootState) => state.game.difficulty);
+  const gameState = useSelector((state: RootState) => state.game.gameState);
 
   const handleClick = () => {
     dispatch(
@@ -52,7 +54,10 @@ const TouchingCell = (props: Props) => {
       <button
         className={classNames(
           CELL_SIZE[difficulty.type],
-          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white shadow-lg"
+          "hover:bg-[#F07032] hover:opacity-90 rounded-[4px] flex items-center justify-center text-white shadow-lg",
+          gameState === GameState.Playing
+            ? "pointer-events-auto"
+            : "pointer-events-none"
         )}
         onClick={handleClick}
         onContextMenu={handleRightClick}
