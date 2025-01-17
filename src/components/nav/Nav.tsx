@@ -11,7 +11,7 @@ const Nav = (props: Props) => {
   const { children } = props;
 
   return (
-    <nav className="h-[72px] px-[24px] flex items-center gap-[48px] border-b border-[#00116617]">
+    <nav className="h-[72px] px-[24px] flex items-center gap-[48px] border-b border-[#00116617] whitespace-nowrap">
       {children}
     </nav>
   );
